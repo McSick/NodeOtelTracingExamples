@@ -14,8 +14,7 @@ var ContextSpanProcessor = /** @class */ (function () {
             }
         });
     };
-    ContextSpanProcessor.prototype.onEnd = function (span) {
-    };
+    ContextSpanProcessor.prototype.onEnd = function (span) { };
     ContextSpanProcessor.prototype.shutdown = function () {
         return Promise.resolve();
     };

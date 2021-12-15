@@ -2,14 +2,8 @@ import {
   SpanProcessor,
   Span,
   ReadableSpan,
-  SpanExporter
 } from "@opentelemetry/sdk-trace-base";
-import {
-    ExportResultCode,
-    globalErrorHandler,
-    suppressTracing,
-  } from '@opentelemetry/core';
-import { Context, SpanAttributeValue, context, TraceFlags } from "@opentelemetry/api";
+import { Context, SpanAttributeValue } from "@opentelemetry/api";
 export class ContextSpanProcessor implements SpanProcessor {
   private _keys: symbol[] = [];
   constructor(keys: symbol[]) {
@@ -24,11 +18,8 @@ export class ContextSpanProcessor implements SpanProcessor {
       }
     });
   }
-  onEnd(span: ReadableSpan): void {
-    
-  }
+  onEnd(span: ReadableSpan): void {}
   shutdown(): Promise<void> {
-  
     return Promise.resolve();
   }
 

@@ -17,8 +17,7 @@ var BaggageSpanProcessor = /** @class */ (function () {
             });
         }
     };
-    BaggageSpanProcessor.prototype.onEnd = function (span) {
-    };
+    BaggageSpanProcessor.prototype.onEnd = function (span) { };
     BaggageSpanProcessor.prototype.shutdown = function () {
         return Promise.resolve();
     };
