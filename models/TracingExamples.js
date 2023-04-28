@@ -1,6 +1,10 @@
-const { trace, context, SpanStatusCode, propagation } = require("@opentelemetry/api");
+const { trace, context, SpanStatusCode, propagation, metrics } = require("@opentelemetry/api");
 require("@opentelemetry/tracing");
-
+let tracer = trace.getTracer("");
+const myMeter = metrics.getMeter(
+  'my-service-meter'
+);
+const counter = myMeter.createCounter('num_traces.counter');
 function doWork(wait_time) {
     // mock some work by sleeping
     return new Promise((resolve, reject) => {
@@ -113,11 +117,12 @@ class TracingExample {
             span.end();
         });
     }
-
+ 
     //create a trace  span
     async createNewTrace() {
         //name of span and the span options 
         let span = this.tracer.startSpan("new-trace", { root: true });
+        counter.add(1);
         await doWork(1000);
         span.end();
     }
@@ -181,16 +186,24 @@ class TracingExample {
     // Add links to a span
     async spanLinks() {
         let many_links = []
-        for (let i = 0; i < 3; i++) {
-            let many_span = this.tracer.startSpan("many-to-1", { attributes: { many_number: i }, root: true });
-            many_links.push({ context: many_span.spanContext() });
-            await doWork(50);
-            many_span.end();
 
-        }
-        let the_one_span = this.tracer.startSpan("the-one", { links: many_links, root: true });
-        await doWork(50);
-        the_one_span.end();
+
+        tracer.startActiveSpan('root', async (root) => {
+            let root_context = root.spanContext();
+            for (let i = 0; i < 3; i++) {
+                let many_span = this.tracer.startSpan("many-to-1", { attributes: { many_number: i }, links: [{ context:root_context  }], root: true });
+                many_links.push({ context: many_span.spanContext() });
+                await doWork(50);
+                many_span.end();
+    
+            }
+            let the_one_span = this.tracer.startSpan("the-one", { links: many_links });
+            await doWork(50);
+            the_one_span.end();
+            root.end();
+
+        });
+
     }
     async workerJobs() {
         /* Have a worker span that does track each child jobs duration, but link to the children in a separate trace as to not clutter the UI */
