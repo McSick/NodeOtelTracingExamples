@@ -1,11 +1,12 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventLoopProcessor = void 0;
+var perf_hooks_1 = require("perf_hooks");
 var lag = 0;
 function measureLag() {
-    var start = performance.now();
+    var start = perf_hooks_1.performance.now();
     setTimeout(function () {
-        lag = performance.now() - start;
+        lag = perf_hooks_1.performance.now() - start;
         measureLag(); // Recurse
     });
 }

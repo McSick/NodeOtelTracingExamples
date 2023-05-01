@@ -1,5 +1,7 @@
 import { SpanProcessor, Span } from '@opentelemetry/sdk-trace-base';
 import { Context } from "@opentelemetry/api";
+import { performance } from 'perf_hooks';
+
 let lag:number = 0;
 function measureLag() {
   const start:number = performance.now();
