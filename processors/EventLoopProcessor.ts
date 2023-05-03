@@ -13,7 +13,7 @@ export class EventLoopProcessor implements SpanProcessor {
   constructor(config?: EventLoopProcessorConfig, nextProcessor?: SpanProcessor) {
     // Set the collection interval with a default value of 10000ms
     const interval = config?.collectionInterval ?? 10000; 
-    
+
     const processor = this;
     processor._elu1 = performance.eventLoopUtilization();
     processor._eventLoopDelay = monitorEventLoopDelay({ resolution: interval });
@@ -46,15 +46,15 @@ export class EventLoopProcessor implements SpanProcessor {
 
     // Event Loop Delay (ELD) Metrics
     span.setAttribute("node.eld.min", this._eventLoopDelay.min);
-    // min: The minimum delay in milliseconds between scheduled tasks during the measurement interval.
+    // min: The minimum delay in nanoseconds between scheduled tasks during the measurement interval.
     //      A low value indicates that tasks are being executed with minimal delay.
 
     span.setAttribute("node.eld.max", this._eventLoopDelay.max);
-    // max: The maximum delay in milliseconds between scheduled tasks during the measurement interval.
+    // max: The maximum delay in nanoseconds between scheduled tasks during the measurement interval.
     //      A high value indicates that some tasks may have experienced significant delay.
 
     span.setAttribute("node.eld.mean", this._eventLoopDelay.mean);
-    // mean: The average delay in milliseconds between scheduled tasks during the measurement interval.
+    // mean: The average delay in nanoseconds between scheduled tasks during the measurement interval.
     //       A high value may indicate that the event loop is consistently experiencing delays.
 
     if (this._nextProcessor) {
