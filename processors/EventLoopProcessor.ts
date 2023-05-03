@@ -24,6 +24,7 @@ export class EventLoopProcessor implements SpanProcessor {
     processor._nextProcessor = nextProcessor;
   }
   private takeEluMeasurement(): void {
+    // the delta between the current call's active and idle times, as well as the corresponding utilization value are calculated and returned
     const newelu = performance.eventLoopUtilization(this._elu1);
     this._elu1 = newelu;
   }
