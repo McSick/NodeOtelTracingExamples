@@ -46,16 +46,16 @@ export class EventLoopProcessor implements SpanProcessor {
     //              while a value close to 0 indicates low CPU usage.
 
     // Event Loop Delay (ELD) Metrics
-    span.setAttribute("node.eld.min", this._eventLoopDelay.min);
-    // min: The minimum delay in nanoseconds between scheduled tasks during the measurement interval.
+    span.setAttribute("node.eld.min", this._eventLoopDelay.min / 1000);
+    // min: The minimum delay in milliseconds between scheduled tasks during the measurement interval.
     //      A low value indicates that tasks are being executed with minimal delay.
 
-    span.setAttribute("node.eld.max", this._eventLoopDelay.max);
-    // max: The maximum delay in nanoseconds between scheduled tasks during the measurement interval.
+    span.setAttribute("node.eld.max", this._eventLoopDelay.max / 1000);
+    // max: The maximum delay in milliseconds between scheduled tasks during the measurement interval.
     //      A high value indicates that some tasks may have experienced significant delay.
 
-    span.setAttribute("node.eld.mean", this._eventLoopDelay.mean);
-    // mean: The average delay in nanoseconds between scheduled tasks during the measurement interval.
+    span.setAttribute("node.eld.avg", this._eventLoopDelay.mean / 1000);
+    // mean: The average delay in milliseconds between scheduled tasks during the measurement interval.
     //       A high value may indicate that the event loop is consistently experiencing delays.
 
     if (this._nextProcessor) {
