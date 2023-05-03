@@ -1,5 +1,6 @@
 const { trace, context, SpanStatusCode, propagation, metrics } = require("@opentelemetry/api");
 require("@opentelemetry/tracing");
+const bcrypt = require("bcryptjs")
 let tracer = trace.getTracer("");
 const myMeter = metrics.getMeter(
   'my-service-meter'
@@ -102,6 +103,19 @@ class TracingExample {
             await downstream.baggageDownStream();
             span.end();
         });
+    }
+
+    async bcryptExample(rounds) {
+        let span = this.tracer.startSpan("hash-rounds", { root: true });
+
+        const hashRounds = rounds || 10 // The more hash rounds the longer hashing takes
+        bcrypt.hash("hash me!", hashRounds, () => {
+            console.log(`--------- Hashing took finished for ${hashRounds} rounds ---------`)
+            // setTimeout(hash)
+            span.end();
+        });
+        
+      
     }
     //create a trace  span
     async callDownstream() {

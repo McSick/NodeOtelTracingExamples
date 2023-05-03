@@ -21,6 +21,12 @@ router.get('/currentspan', async function(req, res, next) {
   await traceModel.addToCurrentSpan();
   res.render('index', { title: 'Current Span' });
 });
+router.get('/bcrypt', async function(req, res, next) {
+  let rounds = parseInt(req.query.rounds);
+  await traceModel.bcryptExample(rounds);
+  res.render('index', { title: 'bcrypt' });
+});
+
 
 router.get('/spanattributes', function(req, res, next) {
   traceModel.spanAttributes();
