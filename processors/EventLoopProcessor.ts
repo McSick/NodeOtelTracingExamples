@@ -11,10 +11,9 @@ export class EventLoopProcessor implements SpanProcessor {
   private _elu1: ReturnType<typeof performance.eventLoopUtilization>;
 
   constructor(config?: EventLoopProcessorConfig, nextProcessor?: SpanProcessor) {
-    let interval = 10000;
-    if (config && config.collectionInterval) {
-      interval = config.collectionInterval;
-    }
+    // Set the collection interval with a default value of 10000ms
+    const interval = config?.collectionInterval ?? 10000; 
+    
     const processor = this;
     processor._elu1 = performance.eventLoopUtilization();
     processor._eventLoopDelay = monitorEventLoopDelay({ resolution: interval });

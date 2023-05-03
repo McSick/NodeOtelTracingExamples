@@ -4,10 +4,9 @@ exports.EventLoopProcessor = void 0;
 var perf_hooks_1 = require("perf_hooks");
 var EventLoopProcessor = /** @class */ (function () {
     function EventLoopProcessor(config, nextProcessor) {
-        var interval = 10000;
-        if (config && config.collectionInterval) {
-            interval = config.collectionInterval;
-        }
+        var _a;
+        // Set the collection interval with a default value of 10000ms
+        var interval = (_a = config === null || config === void 0 ? void 0 : config.collectionInterval) !== null && _a !== void 0 ? _a : 10000;
         var processor = this;
         processor._elu1 = perf_hooks_1.performance.eventLoopUtilization();
         processor._eventLoopDelay = (0, perf_hooks_1.monitorEventLoopDelay)({ resolution: interval });
