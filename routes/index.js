@@ -27,6 +27,10 @@ router.get('/bcrypt', async function(req, res, next) {
   res.render('index', { title: 'bcrypt' });
 });
 
+router.get('/spawnsync', async function(req, res, next) {
+  await traceModel.spawnSyncExample();
+  res.render('index', { title: 'spawnsync' });
+});
 
 router.get('/spanattributes', function(req, res, next) {
   traceModel.spanAttributes();

@@ -1,5 +1,6 @@
 const { trace, context, SpanStatusCode, propagation, metrics } = require("@opentelemetry/api");
 require("@opentelemetry/tracing");
+const { spawnSync } = require('child_process');
 const bcrypt = require("bcryptjs")
 let tracer = trace.getTracer("");
 const myMeter = metrics.getMeter(
@@ -116,6 +117,11 @@ class TracingExample {
         });
         
       
+    }
+    async spawnSyncExample() {
+        setImmediate(() => {
+            spawnSync('sleep', ['5']);
+          });
     }
     //create a trace  span
     async callDownstream() {

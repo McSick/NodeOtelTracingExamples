@@ -56,9 +56,8 @@ const traceExporter = new OTLPTraceExporter({
 
 const sdk = new NodeSDK({
   traceExporter,
-  debug: true,
   instrumentations: [getNodeAutoInstrumentations()],
-  spanProcessor: new MultiSpanProcessor([new BaggageSpanProcessor(), new ContextSpanProcessor(["context"]), new EventLoopProcessor({collectionInterval:1000}), new BatchSpanProcessor(traceExporter)])
+  spanProcessor: new EventLoopProcessor({ collectionInterval: 1000 }, new BatchSpanProcessor(traceExporter))
 });
 
 sdk.start();
