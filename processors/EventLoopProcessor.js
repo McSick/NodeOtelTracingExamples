@@ -1,4 +1,6 @@
 "use strict";
+// Copyright The OpenTelemetry Authors
+// SPDX-License-Identifier: Apache-2.0
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventLoopProcessor = void 0;
 var perf_hooks_1 = require("perf_hooks");
@@ -6,10 +8,13 @@ var EventLoopProcessor = /** @class */ (function () {
     function EventLoopProcessor(config, nextProcessor) {
         var _a, _b;
         this._eventLoopDelay = {};
+        this._elu1 = {};
+        this._eludiff = {};
         this._eventLoopDelayMeasurement = { min: 0, max: 0, mean: 0 };
         // Set the collection interval with a default value of 10000ms
         var interval = (_a = config === null || config === void 0 ? void 0 : config.collectionInterval) !== null && _a !== void 0 ? _a : 10000;
         var resolution = (_b = config === null || config === void 0 ? void 0 : config.eventLoopDelayResolution) !== null && _b !== void 0 ? _b : 10;
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         var processor = this;
         processor._elu1 = perf_hooks_1.performance.eventLoopUtilization();
         processor._eludiff = perf_hooks_1.performance.eventLoopUtilization(processor._elu1);
